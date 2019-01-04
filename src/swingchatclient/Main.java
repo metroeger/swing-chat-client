@@ -123,7 +123,7 @@ public class Main extends javax.swing.JFrame {
         try {
             socket = new Socket("localhost", 8888);
             pw = new PrintWriter(socket.getOutputStream());
-            pw.println("Agi");
+            pw.println("Metroeger");
             pw.flush();
             
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
