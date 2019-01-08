@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package swingchatclient;
 
 import java.io.BufferedReader;
@@ -12,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,12 +18,18 @@ public class Main extends javax.swing.JFrame {
 
     private Socket socket;
     private PrintWriter pw;
-    
-    
+    private String username;
+
     public Main() {
         initComponents();
-        
+
         setLocationRelativeTo(null);
+        
+        username= JOptionPane.showInputDialog(null, "Enter your nickname:");
+
+        if (username == null) {
+            System.exit(0);
+        }
     }
 
     /**
@@ -61,6 +63,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        taMessages.setEditable(false);
         taMessages.setColumns(20);
         taMessages.setRows(5);
         jScrollPane1.setViewportView(taMessages);
@@ -68,11 +71,16 @@ public class Main extends javax.swing.JFrame {
         mb1.setText("File");
 
         miSignOut.setText("Sign out");
+        miSignOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSignOutActionPerformed(evt);
+            }
+        });
         mb1.add(miSignOut);
 
         jMenuBar1.add(mb1);
 
-        m2Operation.setText("Connections");
+        m2Operation.setText("Join room");
 
         miConnect.setText("Connect");
         miConnect.addActionListener(new java.awt.event.ActionListener() {
@@ -119,28 +127,37 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miConnectActionPerformed
-        
+
         try {
-            socket = new Socket("localhost", 8888);
+            // socket = new Socket("111.111.1.111", 3333); // server's IP address
+            socket = new Socket("localhost", 3333); 
             pw = new PrintWriter(socket.getOutputStream());
-            pw.println("Metroeger");
+            pw.println(username);
             pw.flush();
-            
-        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        Reader reader = new Reader(br, taMessages);
-        reader.start();
-            
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            Reader reader = new Reader(br, taMessages);
+            reader.start();
+
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, ex, "Error, try it again", JOptionPane.ERROR_MESSAGE);
+            
         }
     }//GEN-LAST:event_miConnectActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         pw.println(tfMessage.getText());
         pw.flush();
-        taMessages.append(tfMessage.getText());
+        taMessages.append("Me: " + tfMessage.getText() + "\n");
         tfMessage.setText("");
     }//GEN-LAST:event_btnSendActionPerformed
+
+    private void miSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSignOutActionPerformed
+        int ans = JOptionPane.showConfirmDialog(rootPane, "Are you sure?", "Exit chat", WIDTH, HEIGHT);
+        if (ans==0){
+          System.exit(0);  
+        }       
+    }//GEN-LAST:event_miSignOutActionPerformed
 
     /**
      * @param args the command line arguments

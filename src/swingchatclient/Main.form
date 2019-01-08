@@ -13,12 +13,15 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sign out"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miSignOutActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="m2Operation">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Connections"/>
+            <Property name="text" type="java.lang.String" value="Join room"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miConnect">
@@ -114,6 +117,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="taMessages">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>

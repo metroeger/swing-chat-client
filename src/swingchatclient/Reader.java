@@ -26,9 +26,9 @@ public class Reader extends Thread {
         while (true){
             try {
                 row = br.readLine();
-                taMessages.append(row);
+                taMessages.append(row+"\n");
             } catch (IOException ex) {
-                taMessages.append(ex.toString());
+                taMessages.append(ex.toString()+ "\n");
             }
         }
     }
